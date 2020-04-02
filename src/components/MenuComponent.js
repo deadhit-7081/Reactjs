@@ -1,20 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle} from 'reactstrap';
 
+  function RenderMenuItem({dish,clk1})
+  {
+    return(
+      <Card onClick={() => clk1(dish.id)}>
+        <CardImg width="100%" src={dish.image} alt={dish.name} />
+          <CardImgOverlay>
+            <CardTitle>{dish.name}</CardTitle>
+          </CardImgOverlay>
+        </Card>
+    )
+  }
 
-class Menu extends Component
- {
-    render() {
-        const menu = this.props.jai.map((dish) => 
+  const Menu = (props) => 
+  {
+    const menu = props.jai.map((dish) => 
         {
             return (
               <div key={dish.id} className="col-12 col-md-5 m-1">
-                <Card onClick={() => this.props.clk(dish.id)}>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
-                    <CardImgOverlay>
-                    <CardTitle>{dish.name}</CardTitle>
-                  </CardImgOverlay>
-                </Card>
+                <RenderMenuItem dish={dish} clk1={props.clk}/>
               </div>
             );
         });
@@ -26,7 +31,5 @@ class Menu extends Component
             </div>
           </div>
         );
-    }
-}
-
+  }
 export default Menu;
