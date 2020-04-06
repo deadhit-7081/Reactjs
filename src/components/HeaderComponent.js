@@ -32,11 +32,10 @@ class Header extends Component
             
         });
     }
-    handleLogin(event)
+    handleLogin(value)
     {
         this.toggleModal();
         alert("User Name :"+this.username.value +"Password :"+this.password.value + "Remember :"+this.remember.checked);
-        event.preventDefault();
     }
     render()
     {
