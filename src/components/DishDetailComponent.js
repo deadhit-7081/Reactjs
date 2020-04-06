@@ -4,6 +4,7 @@ Button ,Modal,ModalHeader,ModalBody,Label,Row,Col } from 'reactstrap';
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from 'react-router-dom';
 import { ADD_COMMENT } from '../redux/ActionTypes';
+import {Loading} from './LoadingComponent';
 
 const required= (val) => val && val.length;
 const maxLength= (len) => (val) => !(val) || (val.length <= len);
@@ -169,11 +170,29 @@ function RenderDish({dish})
         }
     const DishDetail= (props)=>
     {
-        const a= props.ddetail
-        if(a==null)
+      if(props.isLoading)
+      {
+        return(
+          <div className="container">
+            <div className="row">
+              <Loading/>
+            </div>
+          </div>
+        );
+      }
+      else if(props.errMess)
+      {
+        return(
+          <div className="container">
+            <div className="row">
+              <h4>{props.errMess}</h4>
+            </div>
+          </div>
+        );
+      }
+        
+        else if(props.ddetail!=null)
         {
-            return <div></div>
-        }
         return(
             <div className="container">
             <div className="row">
@@ -188,14 +207,15 @@ function RenderDish({dish})
               </div>
             </div>
                 <div className="row">
-                    <RenderDish dish={a}/>
+                    <RenderDish dish={props.ddetail}/>
                     <RenderComments dish={props.cmnts}
-                    addComment={props.addComment}
-                    dishId={props.ddetail.id}
+                      addComment={props.addComment}
+                      dishId={props.ddetail.id}
                     />
                 </div>
             </div>
         )
+        }
     }
 
 export default DishDetail;

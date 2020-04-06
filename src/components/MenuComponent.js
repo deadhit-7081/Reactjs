@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle,Breadcrumb,BreadcrumbItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {Loading } from './LoadingComponent';
 
   function RenderMenuItem({dish})
   {
@@ -18,7 +19,7 @@ import { Link } from 'react-router-dom';
 
   const Menu = (props) => 
   {
-    const menu = props.jai.map((dish) => 
+    const menu = props.jai.dishes.map((dish) => 
         {
             return (
               <div key={dish.id} className="col-12 col-md-5 m-1">
@@ -27,6 +28,28 @@ import { Link } from 'react-router-dom';
             );
         });
 
+        if(props.jai.isLoading)
+        {
+          return(
+            <div className="container">
+              <div className="row">
+                <Loading/>
+              </div>
+            </div>
+          );
+        }
+        else if(props.jai.errMess)
+        {
+          return(
+            <div className="container">
+              <div className="row">
+                <h4>{props.jai.errMess}</h4>
+              </div>
+            </div>
+          );
+        }
+        else
+        {
         return (
           <div className="container">
             <div className="row">
@@ -44,5 +67,6 @@ import { Link } from 'react-router-dom';
             </div>
           </div>
         );
+        } 
   }
 export default Menu;
