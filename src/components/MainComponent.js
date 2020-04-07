@@ -8,7 +8,7 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import {Switch,Route,Redirect,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment , fetchDishes , fetchComments,fetchPromos,fetchLeader} from '../redux/ActionCreator';
+import { postComment , fetchDishes , fetchComments,fetchPromos,fetchLeader,postFeedback} from '../redux/ActionCreator';
 import { actions } from 'react-redux-form';
 import { TransitionGroup,CSSTransition } from 'react-transition-group';
 
@@ -18,7 +18,7 @@ const mapStateToProps = state =>
     dishes:state.dishes,
     comments:state.comments,
     promotions:state.promotions,
-    leaders:state.leaders
+    leaders:state.leaders,
 };
 }
 
@@ -28,7 +28,9 @@ const mapDispatchToProps = (dispatch) => ({
   restFeedbackForm: () => {dispatch(actions.reset('feedback'))},
   fetchComments: () => {dispatch(fetchComments())},
   fetchPromos: () => {dispatch(fetchPromos())},
-  fetchLeader: () => {dispatch(fetchLeader())}
+  fetchLeader: () => {dispatch(fetchLeader())},
+  postFeedback:(firstname,lastname,telnum,email,agree,contactType,message) => 
+  {dispatch(postFeedback(firstname,lastname,telnum,email,agree,contactType,message))}
 })
 
 class Main extends Component {
@@ -71,7 +73,6 @@ class Main extends Component {
          cmnts={this.props.comments.comments.filter((cmnt) => cmnt.dishId === parseInt(match.params.dishId,10))}
          commentsErrMess={this.props.comments.errMess}
          postComment={this.props.postComment}/>
-     
          )
     }
   return (
@@ -84,7 +85,8 @@ class Main extends Component {
         <Route path="/aboutus" component={() => <About leaders={this.props.leaders}/>}/>
         <Route exact path="/menu" component={() => <Menu jai={this.props.dishes}/>}/>
         <Route path="/menu/:dishId" component={DishWithId}/>
-        <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.restFeedbackForm}/>}/>
+        <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.restFeedbackForm}
+        postFeedback={this.props.postFeedback}/>}/>
         <Redirect to="/home"/>
       </Switch>
       </CSSTransition>
