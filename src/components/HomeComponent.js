@@ -49,7 +49,10 @@ function Home(props)
                     />
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.featureleader}/>
+                    <RenderCard item={props.featureleader}
+                    isLoading={props.leaderLoading}
+                    errMess={props.leaderErrMess}
+                    />
                 </div>
             </div>
         </div>
